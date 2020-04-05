@@ -1,13 +1,16 @@
-<div class="card">
+<div class="card" *ngIf="course" >
   <div class="card-header" *ngIf="course.category !== undefined" >
     {{ cardIndex + ' ' + course.category }}
-    <img width="300" alt="Angular Logo"
-    [src]="course.iconUrl">
   </div>
+  <img width="300" *ngIf="isImageVisible(); else noImage"
+    [src]="course.iconUrl">
+
+    <ng-template #noImage>
+      <p>No image is available.</p>
+    </ng-template>
+
   <div class="card-header" *ngIf="course.category === undefined" >
     {{ cardIndex + ' ' + course.description }}
-    <img width="300" alt="Angular Logo"
-    [src]="course.iconUrl">
   </div>
   <div class="card-body">
     <div class="card-text">{{ course.longDescription }}</div>
