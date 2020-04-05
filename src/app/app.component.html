@@ -4,7 +4,8 @@
 </div>
 
 <div class="courses">
-  <app-course-card [course]="coreCourse" (courseSelected)="onCourseSelected($event)"></app-course-card>
-  <app-course-card [course]="rxjsCourse" (courseSelected)="onCourseSelected($event)"></app-course-card>
-  <app-course-card [course]="ngrxCourse" (courseSelected)="onCourseSelected($event)"></app-course-card>
+  <app-course-card *ngFor="let course of courses; index as i;"
+    [course]="course"
+    [cardIndex]="i + 1"
+    (courseSelected)="onCourseSelected($event)"></app-course-card>
 </div>

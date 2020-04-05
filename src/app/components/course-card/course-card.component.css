@@ -1,3 +1,21 @@
 .course-card.beginner {
   background: lightsalmon;
 }
+
+app-course-card.is-first {
+  border-top: 2px solid red;
+  padding-top: 20px;
+}
+
+app-course-card.is-last {
+  border-top: 2px solid grey;
+  padding-top: 20px;
+}
+
+app-course-card.is-even {
+  background: lightgray;
+}
+
+app-course-card.is-odd {
+  background: lightcyan;
+}

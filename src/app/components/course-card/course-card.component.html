@@ -1,11 +1,17 @@
-<div class="course-card">
-  <div class="course-title">{{ course.category }}</div>
-
-  <img width="300" alt="Angular Logo"
-         [src]="course.iconUrl">
-
-  <div class="course-description">{{ course.longDescription }}</div>
-
+<div class="card">
+  <div class="card-header" *ngIf="course.category !== undefined" >
+    {{ cardIndex + ' ' + course.category }}
+    <img width="300" alt="Angular Logo"
+    [src]="course.iconUrl">
+  </div>
+  <div class="card-header" *ngIf="course.category === undefined" >
+    {{ cardIndex + ' ' + course.description }}
+    <img width="300" alt="Angular Logo"
+    [src]="course.iconUrl">
+  </div>
+  <div class="card-body">
+    <div class="card-text">{{ course.longDescription }}</div>
+  </div>
   <button (click)="onCourseViewed()">View Course</button>
 </div>
 
