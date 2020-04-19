@@ -15,7 +15,7 @@
 
     <div class="course-title"
       *ngIf="course.category === undefined" >
-      {{ cardIndex + ' ' + course.description }}
+      {{ cardIndex || '' + ' ' + course.description }}
     </div>
 
     <div class="card-body">

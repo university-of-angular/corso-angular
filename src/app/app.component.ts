@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { COURSES } from '../db-data';
 import { Course } from './components/course-card/model/course';
+import { CourseCardComponent } from './components/course-card/course-card.component';
 
 @Component({
   selector: 'app-root',
@@ -9,13 +10,12 @@ import { Course } from './components/course-card/model/course';
 })
 export class AppComponent {
   courses = COURSES;
-  title = COURSES[1].description;
-  startDate = new Date(2000, 0, 1);
-  price = 9.99;
-  rate = 0.67;
-  course = COURSES[1];
+
+  // The variable 'card' will be populate with a reference of the CourseCardComponent instance
+  @ViewChild(CourseCardComponent)
+  card: CourseCardComponent;
 
   onCourseSelected(course: Course) {
-    console.log('App component - click event bubbled...', course);
+    console.log(this.card);
   }
 }
