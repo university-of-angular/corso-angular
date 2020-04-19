@@ -3,8 +3,13 @@
   src="https://angular-academy.s3.amazonaws.com/main-logo/main-page-logo-small-hat.png">
 </div>
 
-<div class="courses">
-  <app-course-card
+<div class="courses" #container>
+  <app-course-card #cardRef1
     [course]="courses[0]"
-    (courseSelected)="onCourseSelected($event)"></app-course-card>
+    (courseSelected)="onCourseSelected($event)">
+  </app-course-card>
+  <app-course-card #cardRef2
+    [course]="courses[1]"
+    (courseSelected)="onCourseSelected($event)">
+  </app-course-card>
 </div>

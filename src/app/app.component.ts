@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { COURSES } from '../db-data';
 import { Course } from './components/course-card/model/course';
 import { CourseCardComponent } from './components/course-card/course-card.component';
@@ -11,11 +11,17 @@ import { CourseCardComponent } from './components/course-card/course-card.compon
 export class AppComponent {
   courses = COURSES;
 
-  // The variable 'card' will be populate with a reference of the CourseCardComponent instance
-  @ViewChild(CourseCardComponent)
-  card: CourseCardComponent;
+  @ViewChild('cardRef1', { read: ElementRef })
+  card1: ElementRef;
+
+  @ViewChild('cardRef2')
+  card2: CourseCardComponent;
+
+  @ViewChild('container')
+  containerDiv: ElementRef;
 
   onCourseSelected(course: Course) {
-    console.log(this.card);
+    console.log('Card 1: ', this.card1);
+    console.log('Container: ', this.containerDiv);
   }
 }
