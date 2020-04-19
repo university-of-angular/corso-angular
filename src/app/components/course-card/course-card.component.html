@@ -6,7 +6,7 @@
       {{ cardIndex + ' ' + course.category }}
     </div>
 
-    <img width="300" *ngIf="isImageVisible(); else noImage"
+    <img #courseImage width="300" *ngIf="isImageVisible(); else noImage"
       [src]="course.iconUrl">
 
     <ng-template #noImage>

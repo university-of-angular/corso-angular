@@ -151,3 +151,9 @@ We used a setter here to set our extraIngredient variable. Notice that we wait f
     }
   }
   ```
+# Angular component lifecycle hook
+## AfterViewInit
+Respond after Angular initializes the component's views and child views / the view that a directive is in.
+Called once after the first **ngAfterContentChecked()**.
+
+**AfterViewInit** is called when the component's view has been attached. Remember that Angular compiles all to JS files, not html - the framework manages templates in code and has a rendering engine to interact with the DOM. Here, **@ViewChild** and **@ViewChildren** will be resolved.
