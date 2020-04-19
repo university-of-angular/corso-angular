@@ -3,8 +3,52 @@
   src="https://angular-academy.s3.amazonaws.com/main-logo/main-page-logo-small-hat.png">
 </div>
 
+<div class="demo">
+  <div>
+    <h6>Date pipe (date)</h6>
+    {{ startDate | date: 'dd/MM/yyyy' }}
+  </div>
+  <div>
+    <h4>String pipes</h4>
+    <h6>Uppercase pipe (uppercase)</h6>
+    {{ title | uppercase }}<br>
+    <h6>Lowercase pipe (lowercase)</h6>
+    {{ title | lowercase }}<br>
+    <h6>Titlecase pipe (titlecase)</h6>
+    {{ title | titlecase }}
+  </div>
+  <div>
+    <h6>Number amount pipe (number)</h6>
+    {{ price | number }}
+  </div>
+  <div>
+    <h6>Number amount pipe with minimal integer and fraction part ( number: '3.3-5')</h6>
+    {{ price | number: '3.3-5' }}
+  </div>
+  <div>
+    <h6>Currency pipe (currency)</h6>
+    {{ price | currency }}
+  </div>
+  <div>
+    <h6>Currency pipe with currency argument (Ex.: 'EUR'</h6>
+    {{ price | currency: 'EUR' }}
+  </div>
+  <div>
+    <h6>Percentage pipe (percent)</h6>
+    Percentage: {{ rate | percent }}
+  </div>
+  <div>
+    <h6>JSON pipe (json)</h6>
+    {{ courses | json }}
+  </div>
+  <h6>Keyvalue pipe (keyvalue)</h6>
+  <div *ngFor="let pair of course | keyvalue" >
+    {{ pair.key }}:{{ pair.value }}
+  </div>
+</div>
+
 <div class="courses">
-  <app-course-card *ngFor="let course of courses; index as i;"
+  <app-course-card *ngFor="let course of courses | slice:0:3; index as i;"
     [course]="course"
     [cardIndex]="i + 1"
     (courseSelected)="onCourseSelected($event)"></app-course-card>
