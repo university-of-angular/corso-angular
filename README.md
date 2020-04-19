@@ -151,6 +151,19 @@ We used a setter here to set our extraIngredient variable. Notice that we wait f
     }
   }
   ```
+## @ViewChildren decorator
+Returns the specified elements or directives from the view DOM as QueryList.
+We can use the **@ViewChildren** decorator to grab elements from the host view.
+The **@ViewChildren** decorator supports directive or component type as parameter, or the name of a template variable.
+* When the parameter is a component/directive the return value will be the component/directive instance.
+* When the parameter is the name of a template variable, the return value will be a reference to the   
+  native element.
+
+### QueryList
+Is just a fancy name for an object that stores a list of items. What is special about this object is when the state of the application changes Angular will automatically update the object items for you.
+The **QueryList** is initialized only before the **ngAfterViewInit** lifecycle hook, therefore, is available only from this point.
+
+
 # Angular component lifecycle hook
 ## AfterViewInit
 Respond after Angular initializes the component's views and child views / the view that a directive is in.

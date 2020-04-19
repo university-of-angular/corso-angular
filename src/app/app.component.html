@@ -3,9 +3,11 @@
   src="https://angular-academy.s3.amazonaws.com/main-logo/main-page-logo-small-hat.png">
 </div>
 
+<button (click)="onCoursrsEdited()">Edit Courses</button>
+
 <div class="courses" #container>
-  <app-course-card #cardRef1
-    [course]="courses[1]"
+  <app-course-card *ngFor="let course of courses"
+    [course]="course"
     (courseSelected)="onCourseSelected($event)">
   </app-course-card>
 </div>

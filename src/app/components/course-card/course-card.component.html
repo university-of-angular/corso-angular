@@ -3,7 +3,7 @@
 
     <div class="course-title"
       *ngIf="course.category !== undefined" >
-      {{ cardIndex + ' ' + course.category }}
+      {{  course.category }}
     </div>
 
     <img #courseImage width="300" *ngIf="isImageVisible(); else noImage"
@@ -15,7 +15,7 @@
 
     <div class="course-title"
       *ngIf="course.category === undefined" >
-      {{ cardIndex || '' + ' ' + course.description }}
+      {{ course.description }}
     </div>
 
     <div class="card-body">
