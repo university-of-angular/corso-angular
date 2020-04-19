@@ -3,11 +3,27 @@
   src="https://angular-academy.s3.amazonaws.com/main-logo/main-page-logo-small-hat.png">
 </div>
 
-<button (click)="onCoursrsEdited()">Edit Courses</button>
+<div class="courses" *ngIf="courses[0] as course" >
+  <app-course-card [course]="course"
+                   (courseSelected)="onCourseSelected($event)">
 
-<div class="courses" #container>
-  <app-course-card *ngFor="let course of courses"
-    [course]="course"
-    (courseSelected)="onCourseSelected($event)">
+    <div class="course-image">
+      <img width="50%" height="50%"  alt="Angular Logo"
+      [src]="course.iconUrl">
+
+      <h5>Total lessons: 5</h5>
+    </div>
+
+    <div class="card-body">
+      <div class="card-text">{{ course.longDescription }}</div>
+    </div>
+
+    Edit Description: <textarea name="" id="" cols="30" rows="5"></textarea>
+
+  </app-course-card>
+
+  <app-course-card [course]="courses[1]"
+                   (courseSelected)="onCourseSelected($event)">
+    <h5>Total lessons: 10</h5>
   </app-course-card>
 </div>

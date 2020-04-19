@@ -6,21 +6,17 @@
       {{  course.category }}
     </div>
 
-    <img #courseImage width="300" *ngIf="isImageVisible(); else noImage"
-      [src]="course.iconUrl">
-
-    <ng-template #noImage>
-      <p>No image is available.</p>
-    </ng-template>
+    <ng-content select=".course-image"></ng-content>
+    <ng-content select="h5"></ng-content>
 
     <div class="course-title"
       *ngIf="course.category === undefined" >
       {{ course.description }}
     </div>
 
-    <div class="card-body">
-      <div class="card-text">{{ course.longDescription }}</div>
-    </div>
+    <ng-content select=".card-body"></ng-content>
+
+    <ng-content></ng-content>
 
     <ng-container  [ngSwitch]="course.category">
       <div class="course-category">
