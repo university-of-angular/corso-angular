@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, ViewChild, AfterViewInit, ContentChild } from '@angular/core';
 import { Course } from './model/course';
+import { CourseImageComponent } from '../course-image/course-image.component';
 
 @Component({
   selector: 'app-course-card',
@@ -7,7 +8,7 @@ import { Course } from './model/course';
   styleUrls: ['./course-card.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class CourseCardComponent implements OnInit {
+export class CourseCardComponent implements OnInit, AfterViewInit {
 
   @Input()
   course: Course;
@@ -18,9 +19,17 @@ export class CourseCardComponent implements OnInit {
   @Output()
   courseSelected = new EventEmitter<Course>();
 
+  @ContentChild(CourseImageComponent)
+  image: CourseImageComponent;
+
   constructor() { }
 
+
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+    console.log(this.image);
   }
 
   onCourseViewed() {

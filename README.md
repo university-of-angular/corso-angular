@@ -614,3 +614,13 @@ Notice the select attribute in the ng-content tag. This attribute tells Angular 
   </div>
 </card-wrapper>
 ```
+## @ContentChild decorator
+This parameter decorator is used in order to query ONLY the projections content in the own component's template.
+It's restrcited to the content part of the component instance.
+It allows to fetch the **QueryList** of elements or directives from the content DOM. The **QueryList** is updated whenever the child element/component is added or removed.
+The child element reference is set in **QueryList** just before the *ngAfterContentInit* lifecycle Hook method.
+#### Ej:
+```
+@ContentChildren(ChildComp) contentChildren : QueryList<ChildComp>;
+ ```
+ Here, we are using the ContentChildren to get the QueryList containing the list of the child component ChildComp. The list is stored in the contentChildren variable in the Parent component.

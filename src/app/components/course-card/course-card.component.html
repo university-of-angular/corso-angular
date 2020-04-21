@@ -1,4 +1,4 @@
-<ng-container  *ngIf="course">
+<ng-container  *ngIf="course" #container>
   <div class="course-card" [ngClass]="cardClasses()">
 
     <div class="course-title"
@@ -6,7 +6,7 @@
       {{  course.category }}
     </div>
 
-    <ng-content select=".course-image"></ng-content>
+    <ng-content select="app-course-image"></ng-content>
     <ng-content select="h5"></ng-content>
 
     <div class="course-title"
