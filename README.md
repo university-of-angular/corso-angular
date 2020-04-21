@@ -642,3 +642,101 @@ The child element reference is set in **QueryList** just before the *ngAfterCont
 * **read**: This is optional metadata. It reads a different token from the queried element.
 
 Content children are only initialised by the time the *AfterContentInit* lifecycle phase has been run.
+
+## ng-template directive
+Represents an Angular template: this means that the content of this tag will contain part of a template, that can be then be composed together with other templates in order to form the final component template.
+#### Ej:
+``` 
+@Component({
+  selector: 'app-root',
+  template: `      
+      <ng-template>
+          <button class="tab-button" 
+                  (click)="login()">{{loginText}}</button>
+          <button class="tab-button" 
+                  (click)="signUp()">{{signUpText}}</button>
+      </ng-template>
+  `})
+export class AppComponent {
+    loginText = 'Login';
+    signUpText = 'Sign Up'; 
+    lessons = ['Lesson 1', 'Lessons 2'];
+
+    login() {
+        console.log('Login');
+    }
+
+    signUp() {
+        console.log('Sign Up');
+    }
+}
+```
+With the ng-template tag we are simply defining a template, but we are not using it yet.
+#### How to use this template?
+#### Ej:
+``` 
+<div class="lessons-list" *ngIf="lessons else loading">
+  ... 
+</div>
+
+<ng-template #loading>
+    <div>Loading...</div>
+</ng-template>
+```
+As we can see, the else clause is pointing to a template, which has the name loading. The name was assigned to it via a template reference, using the #loading syntax.
+
+## ng-container directive
+It provides us with an element that we can attach a structural directive to a section of the page, without having to create an extra element just for that. 
+#### Ej:
+```
+<ng-container *ngIf="lessons">
+    <div class="lesson" *ngFor="let lesson of lessons">
+        <div class="lesson-detail">
+            {{lesson | json}}
+        </div>
+    </div>
+</ng-container>
+```
+It can also provide a placeholder for injecting a template dynamically into the page.
+```
+<ng-container *ngTemplateOutlet="loading"></ng-container>
+```
+We can see here how ng-container helps with this use case: we are using it to instantiate on the page the loading template that we defined above.
+
+We are refering to the loading template via its template reference #loading, and we are using the ngTemplateOutlet structural directive to instantiate the template.
+
+We could add as many ngTemplateOutlet tags to the page as we would like, and instantiate a number of different templates. The value passed to this directive can be any expression that evaluates into a template reference.
+
+## *ngTemplateOutlet directive
+It iss a directive that takes a **TemplateRef** and context and stamps out an **EmbeddedViewRef** with the provided context. The context is accessed on the template via ```let-{{templateVariableName}}=”contextProperty”``` attributes to create a variable the template can use. If a context property name is not provided, it will choose the ```$implicit``` property.
+
+The templates will be **TemplateRefs** using <ng-template> and the stamps will be **EmbeddedViewRefs** created from the **TemplateRefs**. 
+**EmbeddedViewRefs** represent views in Angular with their own context and are the smallest essential building block.
+
+#### Ej:
+```
+@Component({
+  template: `
+    <ng-container *ngTemplateOutlet="templateRef; context: exampleContext"></ng-container>
+    <ng-template #templateRef let-default let-other="aContextProperty">
+      <div>
+        $implicit = '{{default}}'
+        aContextProperty = '{{other}}'
+      </div>
+    </ng-template>
+`
+})
+export class NgTemplateOutletExample {
+  exampleContext = {
+    $implicit: 'default context property when none specified',
+    aContextProperty: 'a context property'
+  };
+}
+```
+Will output:
+```
+<div>
+  $implicit = 'default context property when none specified'
+  aContextProperty = 'a context property'
+</div>
+```

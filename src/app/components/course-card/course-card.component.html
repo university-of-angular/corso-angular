@@ -2,17 +2,22 @@
   <div class="course-card" [ngClass]="cardClasses()">
 
     <div class="course-title"
+        *ngIf="course.category === undefined" >
+      {{ course.description }}
+    </div>
+
+    <div class="course-title"
       *ngIf="course.category !== undefined" >
       {{  course.category }}
     </div>
 
-    <ng-content select="app-course-image"></ng-content>
-    <ng-content select="h5"></ng-content>
+    <ng-template #blankImage>
+      <p class="warn">{{ course.description }} has no image yet.</p>
+      <img src="/assets/empty-image.png">
+    </ng-template>
 
-    <div class="course-title"
-      *ngIf="course.category === undefined" >
-      {{ course.description }}
-    </div>
+    <ng-content select="app-course-image"
+                *ngIf="course.iconUrl; else blankImage"></ng-content>
 
     <ng-content select=".card-body"></ng-content>
 
