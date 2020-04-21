@@ -624,3 +624,21 @@ The child element reference is set in **QueryList** just before the *ngAfterCont
 @ContentChildren(ChildComp) contentChildren : QueryList<ChildComp>;
  ```
  Here, we are using the ContentChildren to get the QueryList containing the list of the child component ChildComp. The list is stored in the contentChildren variable in the Parent component.
+
+## @ContentChildren decorator
+ Is used to get **QueryList** of elements or directives from the content DOM. When there is change in content DOM, data in **QueryList** will also change. If child elements are added, we will get those new elements in **QueryList**. If child elements are removed, then those elements will be removed from the **QueryList**. The metadata properties of **@ContentChildren** are as follows:
+
+* **selector**: Directive type or the name used for querying. Find the example when type is directive.
+    
+    ```@ContentChildren(BookDirective) topBooks: QueryList<BookDirective>```
+
+* **descendants**: This is Boolean value. When it is **true** then direct children and other descendants will also 
+    be included. If the value is **false** then only direct children will be included. descendants is used as follows:
+    
+    ```@ContentChildren(BookDirective, {descendants: true}) allBooks: QueryList<BookDirective>```
+    
+    The default value of *descendants* is **false**.
+
+* **read**: This is optional metadata. It reads a different token from the queried element.
+
+Content children are only initialised by the time the *AfterContentInit* lifecycle phase has been run.
