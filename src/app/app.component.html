@@ -11,13 +11,9 @@
     <img src="/assets/empty-image.png">
   </ng-template>
 
-  <!-- Instantiating the template and setting it a context with the *ngTemplateOutlet directive-->
-  <ng-container *ngTemplateOutlet="blankImage; context: { description: course.description }">
-
-  </ng-container>
-
   <hr><hr>
   <app-course-card [course]="course"
+                   [noImageTpl]="blankImage"
                    (courseSelected)="onCourseSelected($event)">
 
     <app-course-image [src]="course.iconUrl"></app-course-image>
