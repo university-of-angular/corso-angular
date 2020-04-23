@@ -707,36 +707,100 @@ We are refering to the loading template via its template reference #loading, and
 
 We could add as many ngTemplateOutlet tags to the page as we would like, and instantiate a number of different templates. The value passed to this directive can be any expression that evaluates into a template reference.
 
-## *ngTemplateOutlet directive
-It iss a directive that takes a **TemplateRef** and context and stamps out an **EmbeddedViewRef** with the provided context. The context is accessed on the template via ```let-{{templateVariableName}}=”contextProperty”``` attributes to create a variable the template can use. If a context property name is not provided, it will choose the ```$implicit``` property.
+## Angular Template instantation with ngTemplateOutlet
+There are two main ways to create reusable components in Angular:
 
-The templates will be **TemplateRefs** using <ng-template> and the stamps will be **EmbeddedViewRefs** created from the **TemplateRefs**. 
-**EmbeddedViewRefs** represent views in Angular with their own context and are the smallest essential building block.
+1. Pass **inputs to the component**, passing the necessary data to the component used for rendering and 
+   configuring the component. This normally involves iterating over the provided data and follow a convention for how to render the data.
+2. Use **transclusion/content projection** to pass a template to the reusable component and **show the 
+   **templateRefs inside the component** using the **ngTemplateOutlet** directive or **ng-content**
 
-#### Ej:
+If you have a simple reusable component that doesn’t need to be very flexible, simply using inputs will do. This becomes a pain when you need to pass lots of inputs to the component to provide the necessary data to the component.
+
+Use **template projection** when **more flexibility is needed** for the reusable component, allowing for an external template to plug into the component using either templateref or ng-content.
+
+### Should you use template reference or ng-content?
+There is a subtle difference between using templateRef vs. using ng-content because of how Angular’s lifecycle management works. Angular’s ```OnInit``` and ```onDestroy``` hooks works for component **where they are declared, not where they are used/rendered**. That means:
+* Using ng-content, the child will **not be destroyed when destroying the** component containing the ng-content.
+  * For a child component being instantiated with ng-content, the constructor and init hooks will also be  
+    **invoked regardless of if the child component has been rendered** in the DOM.
+
+* Passing the template projection as ```templateRef``` is the most **maintainable and performant**, as the  
+  lifecycle hooks are only getting called if the templateRef have actually been rendered in the DOM and because it gets destroyed with the component instantiating the templateRef.
+
+#### Ej: Creating a reusable card/list view component
+* What we are going to do instead is using **transclusion**, that is passing template references to the reusable 
+  component.
+
+We want to create a card-list component that takes in a listRef, cardRef and data to be shown:
 ```
-@Component({
-  template: `
-    <ng-container *ngTemplateOutlet="templateRef; context: exampleContext"></ng-container>
-    <ng-template #templateRef let-default let-other="aContextProperty">
-      <div>
-        $implicit = '{{default}}'
-        aContextProperty = '{{other}}'
-      </div>
-    </ng-template>
-`
-})
-export class NgTemplateOutletExample {
-  exampleContext = {
-    $implicit: 'default context property when none specified',
-    aContextProperty: 'a context property'
-  };
-}
-```
-Will output:
-```
-<div>
-  $implicit = 'default context property when none specified'
-  aContextProperty = 'a context property'
+<div class="todo-list-wrapper">
+  <div class="mx-auto col-10">
+    <h5>{{'todo-list' | translate}}</h5>
+    <hr>
+
+    <app-cards-list [listRef]="todoListRef" [cardRef]="todoItemCardRef" [data]="todoList"></app-cards-list>
+  </div>
+
+  <hr>
+
+  <app-add-todo [currentTODO]="currentTODO"></app-add-todo>
 </div>
+
+<ng-template #todoItemCardRef let-todo="data">
+  <app-todo-item-card [todoItem]="todo" (todoDelete)="deleteTodo($event)" (todoEdit)="editTodo($event)"></app-todo-item-card>
+</ng-template>
+
+<ng-template #todoListRef let-todos="data">
+  <ul class="list-group mb-3">
+    <app-todo-item-list-row *ngFor="let todo of todos" [todoItem]="todo" (todoDelete)="deleteTodo($event)" (todoEdit)="editTodo($event)"></app-todo-item-list-row>
+  </ul>
+</ng-template>
+```
+We simply utilize templateRefs and map data using ```let-todos="data"``` which will map data to todos when we are passing data to a templateRef with ```ngTemplateOutletContext```.
+
+We are then going to create the card-list component.
+Open the terminal, go to shared folder and type:
+
+```
+ng g m cards-list
+```
+
+Go to cards-list and create the cards and list components:
+
+```
+ng g c cards
+```
+
+```
+ng g c list
+```
+
+Since the only input we are working with here is template refs and data, to be shown in the template refs, we are going to have very simple presentation components. The list component looks like this:
+```
+<ng-container [ngTemplateOutlet]="listRef" [ngTemplateOutletContext]="{data: data}"></ng-container>
+
+```
+To render this it only takes in a listRef and the data to render the list.
+
+The cards component template is slightly different because it is iterating over each item (todo item in this case, and are rendering them using ```ngTemplateOutlet``` and is setting the data for the ngTemplateOutlet with ```ngTemplateOutletContext```. It is setting the data which in our templateRef is passed to the todo data using ```let-todo="data"```.
+
+```
+<div class="cards-wrapper" *ngIf="data.length > 0; else noContent">
+  <div class="card-item" *ngFor="let dataItem of data">
+    <ng-container *ngIf="cardRef; else noCard" [ngTemplateOutlet]="cardRef" [ngTemplateOutletContext]="{data: dataItem}">
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #noContent>
+  <div class="no-data">
+    {{'taskCards.noData' | translate}}
+  </div>
+</ng-template>
+<ng-template #noCard>
+  <div class="no-data">
+    {{'taskCards.noCardRef' | translate}}
+  </div>
+</ng-template>
 ```
